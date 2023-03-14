@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
-public class BookingEntity {
+public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -18,4 +18,8 @@ public class BookingEntity {
 
     private Integer flightId;
 
+    public Booking(Integer customerId, Integer flightId) {
+        this.customerId = customerId;
+        this.flightId = flightId;
+    }
 }

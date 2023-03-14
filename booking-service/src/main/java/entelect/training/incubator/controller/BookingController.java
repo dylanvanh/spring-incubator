@@ -1,16 +1,35 @@
 package entelect.training.incubator.controller;
 
+import entelect.training.incubator.dto.CreateBookingDto;
+import entelect.training.incubator.dto.FlightDto;
 import entelect.training.incubator.dto.SearchByDto;
+import entelect.training.incubator.model.Booking;
+import entelect.training.incubator.service.BookingService;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/bookings")
+@RequestMapping("bookings")
 public class BookingController {
+    private BookingService bookingService;
+
+    @Autowired
+    public BookingController(BookingService bookingService) {
+        this.bookingService = bookingService;
+    }
 
     @GetMapping("{id}")
-    public String getBookingById(@PathVariable int id) {
-        return "Booking " + id;
+    public ResponseEntity<?> getBookingById(@PathVariable int id) throws Exception {
+
+        Booking foundEntity = bookingService.findById(id);
+
+        if (foundEntity == null) {
+            return ResponseEntity.badRequest().body("Booking not found");
+        }
+        return new ResponseEntity<>(foundEntity, HttpStatus.OK);
     }
 
     @GetMapping
@@ -19,12 +38,18 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createBooking() {
-        return ResponseEntity.ok("Booking");
+    public ResponseEntity<?> createBooking(@RequestBody @NotNull CreateBookingDto createBookingDto) throws Exception {
+        try {
+            Booking booking = bookingService.createBooking(createBookingDto);
+            return new ResponseEntity<>(booking, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("search")
     public ResponseEntity<?> searchBookings(@RequestBody SearchByDto searchByDto) {
+
         Integer customerId = searchByDto.getCustomerId();
         Integer referenceNumber = searchByDto.getReferenceNumber();
 
