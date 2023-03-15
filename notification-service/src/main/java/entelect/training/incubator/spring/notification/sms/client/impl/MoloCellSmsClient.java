@@ -10,9 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class MoloCellSmsClient implements SmsClient {
     
-    @Override
-    @RabbitListener(queues = "sms_queue")
+//    @Override
+//    @RabbitListener(queues = "sms_queue")
     public void sendSms(BookingQueueDetailsDto bookingDetailsQueueItem) {
         System.out.println(String.format("Sending SMS, destination='{}', '{}'"));
+    }
+
+    @Override
+    @RabbitListener(queues = "sms_queue")
+    public void test(String message) {
+        System.out.println("Received message" + message);
     }
 }

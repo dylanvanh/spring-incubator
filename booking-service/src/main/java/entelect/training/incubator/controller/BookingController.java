@@ -6,6 +6,7 @@ import entelect.training.incubator.dto.SearchByDto;
 import entelect.training.incubator.model.Booking;
 import entelect.training.incubator.service.BookingService;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("bookings")
 public class BookingController {
     private BookingService bookingService;
+    @Autowired
+    private RabbitTemplate template;
 
     @Autowired
     public BookingController(BookingService bookingService) {
@@ -63,6 +66,12 @@ public class BookingController {
         }
 
         return ResponseEntity.badRequest().body("Please provide either a customer id or a reference number");
+    }
+
+    @PostMapping("test")
+    public String test(){
+        template.convertAndSend("sms_exchange", "sms_routingKey", "ASD");
+        return "Success!";
     }
 
 

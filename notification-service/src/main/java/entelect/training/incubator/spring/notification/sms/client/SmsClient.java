@@ -5,4 +5,5 @@ import entelect.training.incubator.spring.notification.sms.client.impl.BookingQu
 public interface SmsClient {
     
     void sendSms(BookingQueueDetailsDto bookingDetailsQueueItem);
+    void test(String message);
 }

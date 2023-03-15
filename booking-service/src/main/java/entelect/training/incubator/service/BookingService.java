@@ -66,10 +66,4 @@ public class BookingService {
             throw new Exception("Invalid customer or flight id provided");
         }
     }
-
-    private void publishMessage(String message) {
-        rabbitTemplate.convertAndSend("smsQueue", message);
-        System.out.println("Message sent to queue: " + message);
-    }
-
 }
