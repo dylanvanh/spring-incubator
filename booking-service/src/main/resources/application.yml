@@ -10,6 +10,13 @@ spring:
     hibernate:
       ddl-auto: create
 
+  rabbitmq:
+    host: localhost
+    port: 15672
+    username: guest
+    password: guest
+    virtual-host: /
+
 server:
   port: 8200
   error:
