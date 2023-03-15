@@ -55,11 +55,9 @@ public class BookingService {
             Booking newBooking = new Booking(customer.getId(), flight.getId());
             bookingRepository.save(newBooking);
 
-            //add to queue
-            BookingDetails bookingDetails = new BookingDetails("1", "2", "3");
-            BookingQueueDetailsDto bookingDetailsQueueItem = new BookingQueueDetailsDto(bookingDetails, "PROCESS",
-                    "Molo Air: Confirming flight <flight number> booked for <name surname> on <flight date>.");
-            rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, bookingDetailsQueueItem);
+//            add to queue
+            BookingDetailsDto bookingDetails = new BookingDetailsDto(flight.getFlightNumber(), customer.getFirstName() + customer.getLastName(), flight.getDepartureTime().toString(), customer.getPhoneNumber());
+            rabbitTemplate.convertAndSend("sms_exchange", "sms_routingKey", bookingDetails);
 
             return newBooking;
         } catch (Exception e) {

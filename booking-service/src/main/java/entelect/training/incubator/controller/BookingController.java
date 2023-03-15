@@ -1,8 +1,6 @@
 package entelect.training.incubator.controller;
 
-import entelect.training.incubator.dto.CreateBookingDto;
-import entelect.training.incubator.dto.FlightDto;
-import entelect.training.incubator.dto.SearchByDto;
+import entelect.training.incubator.dto.*;
 import entelect.training.incubator.model.Booking;
 import entelect.training.incubator.service.BookingService;
 import org.jetbrains.annotations.NotNull;
@@ -11,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("bookings")
@@ -69,8 +71,9 @@ public class BookingController {
     }
 
     @PostMapping("test")
-    public String test(){
-        template.convertAndSend("sms_exchange", "sms_routingKey", "ASD");
+    public String test() {
+        BookingDetailsDto bookingDetails = new BookingDetailsDto("asd", "asd", LocalDateTime.now().toString(), "asd");
+        template.convertAndSend("sms_exchange", "sms_routingKey", bookingDetails);
         return "Success!";
     }
 
