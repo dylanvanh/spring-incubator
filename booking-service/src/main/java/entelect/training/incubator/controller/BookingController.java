@@ -1,6 +1,8 @@
 package entelect.training.incubator.controller;
 
-import entelect.training.incubator.dto.*;
+import entelect.training.incubator.dto.BookingDetailsDto;
+import entelect.training.incubator.dto.CreateBookingDto;
+import entelect.training.incubator.dto.SearchByDto;
 import entelect.training.incubator.model.Booking;
 import entelect.training.incubator.service.BookingService;
 import org.jetbrains.annotations.NotNull;
@@ -11,12 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("bookings")
+@CrossOrigin(origins = "http://localhost:3000")
 public class BookingController {
     private BookingService bookingService;
     @Autowired
