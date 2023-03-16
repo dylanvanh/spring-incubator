@@ -45,8 +45,8 @@ public class BookingService {
 
 
     public Booking createBooking(CreateBookingDto createBookingDto) throws Exception {
-        String flightUrl = "http://localhost:8202/flights/" + createBookingDto.getFlightId();
-        String customerUrl = "http://localhost:8201/customers/" + createBookingDto.getCustomerId();
+        String flightUrl = "http://localhost:8202/flights/" + createBookingDto.getFlightId() + "/";
+        String customerUrl = "http://localhost:8201/customers/" + createBookingDto.getCustomerId() + "/";
 
         try {
             FlightDto flight = restTemplate.getForEntity(flightUrl, FlightDto.class).getBody();

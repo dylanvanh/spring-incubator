@@ -5,6 +5,9 @@ import entelect.training.incubator.spring.flight.model.FlightsSearchRequest;
 import entelect.training.incubator.spring.flight.service.FlightsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +26,10 @@ public class FlightsController {
     private final Logger LOGGER = LoggerFactory.getLogger(FlightsController.class);
 
     private final FlightsService flightsService;
+    private CacheManager cacheManager;
 
-    public FlightsController(FlightsService flightsService) {
+    @Autowired
+    public FlightsController(FlightsService flightsService, CacheManager cacheManager) {
         this.flightsService = flightsService;
     }
 
@@ -66,6 +71,7 @@ public class FlightsController {
         return ResponseEntity.notFound().build();
     }
 
+    @Cacheable(value= "flightSearchCache", key = "#searchRequest.hashCode()")
     @PostMapping("/search")
     public ResponseEntity<?> searchFlights(@RequestBody FlightsSearchRequest searchRequest) {
         LOGGER.info("Processing flight search request: {}", searchRequest);
