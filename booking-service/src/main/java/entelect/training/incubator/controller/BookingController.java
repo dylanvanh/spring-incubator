@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -38,8 +39,15 @@ public class BookingController {
     }
 
     @GetMapping
-    public String getAllBookings() {
-        return "All bookings!";
+    public ResponseEntity<?> getAllBookings() {
+
+        try {
+            List<Booking> bookingList = bookingService.getAllBookings();
+            return new ResponseEntity<>(bookingList, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @PostMapping

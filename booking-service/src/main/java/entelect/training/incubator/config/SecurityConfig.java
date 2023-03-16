@@ -1,16 +1,11 @@
-package entelect.training.incubator.spring.customer.config;
+package entelect.training.incubator.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.SecurityFilterChain;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -22,25 +17,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * The commented code below shows you how to connect to a DB. You will also want to use some kind of password encoding/hashing.
      */
 
-//        @Autowired
-//        private DataSource securityDataSource;
-
-//        @Override
-//        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//            auth.jdbcAuthentication().dataSource(securityDataSource);
-//        }
+    //    @Autowired
+    //    private DataSource securityDataSource;
+    //
+    //    @Override
+    //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    //        auth.jdbcAuthentication().dataSource(securityDataSource);
+    //    }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication().withUser("user").password("{noop}user").roles("USER");
         auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("loyalty").password("{noop}loyalty").roles("LOYALTY_USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable() // !!! Disclaimer: NEVER DISABLE CSRF IN PRODUCTION !!!
+        http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/customers").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/customers/*/").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/bookings/*/").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/bookings").hasAnyRole("USER")
                 .anyRequest().denyAll()
                 .and()
                 .httpBasic();

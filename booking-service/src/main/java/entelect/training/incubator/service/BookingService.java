@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.awt.print.Book;
+import java.util.List;
 
 @Service
 public class BookingService {
@@ -63,5 +64,15 @@ public class BookingService {
         } catch (Exception e) {
             throw new Exception("Invalid customer or flight id provided");
         }
+    }
+
+    public List<Booking> getAllBookings() throws Exception {
+        List<Booking> bookings = bookingRepository.findAll();
+
+        if (bookings.isEmpty()) {
+            throw new Exception("No bookings found");
+        }
+
+        return bookings;
     }
 }
