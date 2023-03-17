@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("flights")
-@CrossOrigin(origins = "http://localhost:3000")
 public class FlightsController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(FlightsController.class);

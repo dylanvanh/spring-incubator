@@ -15,13 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("bookings")
 public class BookingController {
     private BookingService bookingService;
-    @Autowired
-    private RabbitTemplate template;
 
     @Autowired
     public BookingController(BookingService bookingService) {
