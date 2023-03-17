@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("bookings")
-@CrossOrigin(origins = "http://localhost:3000")
 public class BookingController {
     private BookingService bookingService;
     @Autowired
@@ -81,8 +81,6 @@ public class BookingController {
 
     @PostMapping("test")
     public String test() {
-        BookingDetailsDto bookingDetails = new BookingDetailsDto("asd", "asd", LocalDateTime.now().toString(), "asd");
-        template.convertAndSend("sms_exchange", "sms_routingKey", bookingDetails);
         return "Success!";
     }
 

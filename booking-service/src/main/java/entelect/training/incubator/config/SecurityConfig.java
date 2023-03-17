@@ -34,15 +34,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .cors().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
                 .antMatchers("/swagger*/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/bookings/*/").hasAnyRole("USER", "ADMIN")
-                .antMatchers(HttpMethod.POST, "/bookings").hasAnyRole("USER","ADMIN")
-                .antMatchers(HttpMethod.GET, "/bookings").hasAnyRole("ADMIN")
-                .anyRequest().denyAll()
-                .and()
-                .httpBasic();
+                .antMatchers("/bookings*/**").permitAll();
+//                .antMatchers(HttpMethod.GET, "/bookings/*/").hasAnyRole("USER", "ADMIN")
+//                .antMatchers(HttpMethod.POST, "/bookings").hasAnyRole("USER","ADMIN")
+//                .antMatchers(HttpMethod.GET, "/bookings").hasAnyRole("ADMIN")
+//                .anyRequest().denyAll()
+//                .and()
+//                .httpBasic();
     }
 
 }
