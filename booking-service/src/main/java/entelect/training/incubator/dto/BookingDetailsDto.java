@@ -1,19 +1,9 @@
 package entelect.training.incubator.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import entelect.training.incubator.model.Booking;
 
-import java.time.LocalDateTime;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 public class BookingDetailsDto {
-    private String flightNumber;
-    private String fullName;
-    private String flightDepartureDate;
-    private String phoneNumber;
+    private Booking booking;
+    private CustomerDto customer;
+    private FlightDto flight;
 }

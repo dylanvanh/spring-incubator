@@ -4,13 +4,10 @@ import entelect.training.incubator.dto.*;
 import entelect.training.incubator.model.Booking;
 import entelect.training.incubator.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
-import java.awt.print.Book;
 import java.util.List;
 
 @Service
@@ -56,8 +53,8 @@ public class BookingService {
             Booking newBooking = new Booking(customer.getId(), flight.getId());
             bookingRepository.save(newBooking);
 
-//            add to queue
-            BookingDetailsDto bookingDetails = new BookingDetailsDto(flight.getFlightNumber(), customer.getFirstName() + customer.getLastName(), flight.getDepartureTime().toString(), customer.getPhoneNumber());
+            // add to queue
+            BookingMessageQueueDto bookingDetails = new BookingMessageQueueDto(flight.getFlightNumber(), customer.getFirstName() + customer.getLastName(), flight.getDepartureTime().toString(), customer.getPhoneNumber());
             rabbitTemplate.convertAndSend("sms_exchange", "sms_routingKey", bookingDetails);
 
             return newBooking;
@@ -68,6 +65,7 @@ public class BookingService {
 
     public List<Booking> getAllBookings() throws Exception {
         List<Booking> bookings = bookingRepository.findAll();
+
 
         if (bookings.isEmpty()) {
             throw new Exception("No bookings found");

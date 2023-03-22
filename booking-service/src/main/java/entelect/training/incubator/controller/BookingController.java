@@ -1,18 +1,15 @@
 package entelect.training.incubator.controller;
 
-import entelect.training.incubator.dto.BookingDetailsDto;
 import entelect.training.incubator.dto.CreateBookingDto;
 import entelect.training.incubator.dto.SearchByDto;
 import entelect.training.incubator.model.Booking;
 import entelect.training.incubator.service.BookingService;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -39,7 +36,6 @@ public class BookingController {
 
     @GetMapping
     public ResponseEntity<?> getAllBookings() {
-
         try {
             List<Booking> bookingList = bookingService.getAllBookings();
             return new ResponseEntity<>(bookingList, HttpStatus.OK);
