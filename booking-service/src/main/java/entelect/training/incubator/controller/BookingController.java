@@ -44,7 +44,7 @@ public class BookingController {
             List<Booking> bookingList = bookingService.getAllBookings();
             return new ResponseEntity<>(bookingList, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
         }
 
     }

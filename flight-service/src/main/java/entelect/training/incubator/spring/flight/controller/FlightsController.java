@@ -44,13 +44,8 @@ public class FlightsController {
         LOGGER.info("Fetching all flights");
         List<Flight> flights = this.flightsService.getFlights();
 
-        if (!flights.isEmpty()) {
-            LOGGER.trace("Found flights");
-            return new ResponseEntity<>(flights, HttpStatus.OK);
-        }
-
         LOGGER.trace("No flights found");
-        return ResponseEntity.notFound().build();
+        return new ResponseEntity<>(flights, !flights.isEmpty() ? HttpStatus.OK : HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("{id}")
@@ -67,7 +62,7 @@ public class FlightsController {
         return ResponseEntity.notFound().build();
     }
 
-    @Cacheable(value= "flightSearchCache", key = "#searchRequest.hashCode()")
+    @Cacheable(value = "flightSearchCache", key = "#searchRequest.hashCode()")
     @PostMapping("/search")
     public ResponseEntity<?> searchFlights(@RequestBody FlightsSearchRequest searchRequest) {
         LOGGER.info("Processing flight search request: {}", searchRequest);
